@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic-Tac-Toe</title>
+    <style>
+        .board {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-gap: 2px;
+        }
+        .cell {
+            width: 100px;
+            height: 100px;
+            text-align: center;
+            font-size: 24px;
+            cursor: pointer;
+            border: 1px solid #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Tic-Tac-Toe</h1>
+    <div class="board" id="board"></div>
+    <p id="winner"></p>
+
+    <script>
+        const board = document.getElementById("board");
+        const cells = [];
+        const winnerMessage = document.getElementById("winner");
+        let currentPlayer = "X";
+        let isGameOver = false;
+
+        // Create the game board
+        for (let i = 0; i < 9; i++) {
+            const cell = document.createElement("div");
+            cell.classList.add("cell");
+            cell.dataset.index = i;
+            board.appendChild(cell);
+            cells.push(cell);
+            cell.addEventListener("click", () => handleCellClick(cell));
+        }
+
+        // Handle cell clicks
+        function handleCellClick(cell) {
+            if (isGameOver || cell.textContent !== "") return;
+
+            cell.textContent = currentPlayer;
+            checkWinner();
+            currentPlayer = currentPlayer === "X" ? "O" : "X";
+        }
+
+        // Check for a winner
+        function checkWinner() {
+            const winningCombinations = [
+                [0, 1, 2],
+                [3, 4, 5],
+                [6, 7, 8],
+                [0, 3, 6],
+                [1, 4, 7],
+                [2, 5, 8],
+                [0, 4, 8],
+                [2, 4, 6]
+            ];
+
+            for (const combination of winningCombinations) {
+                const [a, b, c] = combination;
+                if (cells[a].textContent && cells[a].textContent === cells[b].textContent && cells[a].textContent === cells[c].textContent) {
+                    isGameOver = true;
+                    winnerMessage.textContent = `${currentPlayer === "X" ? "O" : "X"} wins!`;
+                    return;
+                }
+            }
+
+            if (!cells.some(cell => cell.textContent === "")) {
+                isGameOver = true;
+                winnerMessage.textContent = "It's a draw!";
+            }
+        }
+    </script>
+</body>
+</html>
