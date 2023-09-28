@@ -71,7 +71,7 @@
                 const [a, b, c] = combination;
                 if (cells[a].textContent && cells[a].textContent === cells[b].textContent && cells[a].textContent === cells[c].textContent) {
                     isGameOver = true;
-                    winnerMessage.textContent = `${currentPlayer === "X" ? "O" : "X"} wins!`;
+                    winnerMessage.textContent = `${currentPlayer === "X" ? "X" : "O"} wins!`;
                     return;
                 }
             }
